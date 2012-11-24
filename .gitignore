@@ -19,3 +19,5 @@
 
 # Ignore database.yml
 /config/database.yml
+
+/config/app_env_vars.rb
