@@ -23,6 +23,14 @@ end
 gem 'jquery-rails'
 
 gem 'devise' # User authentication
+
+gem "rspec-rails", :group => [:test, :development]
+group :test do
+  gem "capybara"
+  gem "guard-rspec"
+  gem 'rb-inotify', '~> 0.8.8'
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
