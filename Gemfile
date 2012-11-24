@@ -24,6 +24,7 @@ end
 gem 'jquery-rails'
 
 gem 'devise' # User authentication
+gem 'omniauth' # Auth to social apps
 
 gem "rspec-rails", :group => [:test, :development]
 group :test do
@@ -31,6 +32,7 @@ group :test do
   gem "guard-rspec"
   gem 'guard-spork'
   gem 'rb-inotify', '~> 0.8.8'
+  gem 'shoulda-matchers'
 end
 
 # To use ActiveModel has_secure_password
