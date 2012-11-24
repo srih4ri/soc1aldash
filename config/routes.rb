@@ -2,6 +2,10 @@ SocialDash::Application.routes.draw do
   devise_for :users
   root :to => 'users#dashboard'
 
+  match 'auth/:provider/callback' => 'social_apps#create'
+
+  resources 'social_apps',:only => [:show,:index]
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
