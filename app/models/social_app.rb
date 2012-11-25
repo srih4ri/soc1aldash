@@ -1,6 +1,7 @@
 class SocialApp < ActiveRecord::Base
   attr_accessible :name, :provider, :uid
   belongs_to :user
+  serialize :settings
 
   def self.create_from_omniauth(auth)
     create! do |app|

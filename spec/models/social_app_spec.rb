@@ -18,6 +18,18 @@ describe SocialApp do
       social_app.provider.should eq('prv')
       social_app.uid.should eq('alongstringwithtoomany')
     end
+  end
 
+  describe 'setttings=' do
+    it 'should set settings' do
+      expect { SocialApp.new.settings = {:token => 1} }.not_to raise_error
+    end
+  end
+  describe 'settings' do
+    it 'should return setting' do
+      social_app = create(:social_app,:settings => {:token => 1})
+      social_app.reload
+      social_app.settings.should eq(:token => 1)
+    end
   end
 end
