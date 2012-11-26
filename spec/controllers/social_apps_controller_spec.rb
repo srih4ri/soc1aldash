@@ -44,7 +44,28 @@ describe SocialAppsController do
         response.should redirect_to SocialApp.last
       end
     end
-
+  end
+  describe '#GET #show' do
+    context 'with a signed in user' do
+      let(:user){ create(:user) }
+      let(:social_app){ create(:social_app,:user => user,:provider => 'twitter') }
+      before(:each) do
+        sign_in user
+      end
+      it 'should assign api' do
+        get :show,:id => social_app.id
+        assigns(:social_app).should eq(social_app)
+      end
+      it 'should 404 for another guys social app' do
+        another_user = create(:user)
+        another_app = create(:social_app,:user => another_user)
+        expect{ get :show,:id => another_user.id }.to raise_error(ActiveRecord::RecordNotFound)
+      end
+      it "should render provider's tempalte" do
+        get :show,:id => social_app.id
+        response.should render_template :twitter
+      end
+    end
   end
 end
 

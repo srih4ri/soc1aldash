@@ -10,6 +10,7 @@ class SocialAppsController < ApplicationController
   end
 
   def show
-    
+    @social_app = current_user.social_apps.find(params[:id])
+    render @social_app.provider
   end
 end
