@@ -8,6 +8,15 @@ class SocialApp < ActiveRecord::Base
       app.provider = auth['provider']
       app.uid = auth['uid']
       app.name = auth['info']['name']
+      app.settings = app.client.settings_for(auth)
     end
   end
+
+  def client
+    #TODO: How to not access via full namespace
+    Hash.new(SocialDash::Clients::NilClient).merge({
+      'twitter' => SocialDash::Clients::TwitterClient
+    })[provider]
+  end
+
 end
