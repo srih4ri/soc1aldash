@@ -19,4 +19,7 @@ class SocialApp < ActiveRecord::Base
     })[provider]
   end
 
+  def client_instance
+    client.new(self)
+  end
 end
