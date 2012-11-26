@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user do
-    email 'srih4ri@gmail.com'
+    sequence(:email) { |n| "persion#{n}@example.com" }
     password 'password'
   end
 
@@ -9,6 +9,5 @@ FactoryGirl.define do
     provider 'prv'
     name 'name'
     uid 'q23q231324'
-    
   end
 end
