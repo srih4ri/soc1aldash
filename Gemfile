@@ -25,7 +25,8 @@ gem 'jquery-rails'
 
 gem 'devise' # User authentication
 gem 'omniauth' # Auth to social apps
-gem 'omniauth-twitter' # Twitter provider 
+gem 'omniauth-twitter' # Twitter provider
+gem 'twitter' # Interact with twitter API
 
 gem "rspec-rails", :group => [:test, :development]
 group :test do
