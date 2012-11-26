@@ -22,6 +22,15 @@ describe SocialAppsController do
       end
 
     end
+    context 'without a signed in user' do
+      before do
+        sign_out :user
+      end
+      it 'should redirect to sign in' do
+        get :index
+        response.should redirect_to(new_user_session_path)
+      end
+    end
   end
 
   describe 'GET #create' do
@@ -64,6 +73,15 @@ describe SocialAppsController do
       it "should render provider's tempalte" do
         get :show,:id => social_app.id
         response.should render_template :twitter
+      end
+    end
+    context 'without a signed in user' do
+      before do
+        sign_out :user
+      end
+      it 'should redirect to sign in' do
+        get :show,:id => 4
+        response.should redirect_to(new_user_session_path)
       end
     end
   end

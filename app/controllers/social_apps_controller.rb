@@ -1,4 +1,5 @@
 class SocialAppsController < ApplicationController
+  before_filter :authenticate_user!
 
   def index
     @social_apps = current_user.social_apps
