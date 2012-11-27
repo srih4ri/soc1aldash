@@ -56,7 +56,7 @@ describe SocialApp do
   end
   describe '#client_instance' do
     it 'should return a new instance of client' do
-      social_app = build(:social_app,:provider => 'twitter')
+      social_app = build(:social_app,:provider => 'twitter',:settings => {})
       social_app.client_instance.should be_instance_of(SocialDash::Clients::TwitterClient)
     end
   end
