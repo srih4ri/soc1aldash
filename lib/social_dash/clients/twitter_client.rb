@@ -5,6 +5,7 @@ module SocialDash
       def initialize(social_app)
         @credentials = social_app.settings['credentials'] || {}
         @search_terms = social_app.settings['search_terms'] || {}
+        @cache_key = social_app.id
       end
 
       def self.settings_for(oauth_response)
@@ -18,6 +19,9 @@ module SocialDash
                                     )
       end
 
+      def cached_mentions
+        Rails.cache.fetch("twitter_mentions_#{@cache_key}_#{Time.now.to_i/1000}"){ mentions }
+      end
 
       def mentions
         client.mentions_timeline

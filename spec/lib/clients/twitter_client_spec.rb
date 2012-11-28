@@ -18,6 +18,7 @@ describe SocialDash::Clients::TwitterClient do
     let(:social_app) do
       social_app = mock(:social_app)
       social_app.stub(:settings).and_return(settings)
+      social_app.stub(:id).and_return(10)
       social_app
     end
     let(:twt){SocialDash::Clients::TwitterClient.new(social_app)}
@@ -27,12 +28,16 @@ describe SocialDash::Clients::TwitterClient do
     it 'should set search terms' do
       twt.instance_variable_get('@search_terms').should eq(['fu','bar'])
     end
+    it 'should set cache_key' do
+      twt.instance_variable_get('@cache_key').should eq(10)
+    end
   end
 
   describe '#client' do
     it "should return an instance of twitter gem's client'" do
       social_app = mock(:social_app)
       social_app.stub(:settings).and_return({'credentials' => {}})
+      social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
       twt.client.should be_instance_of(Twitter::Client)
     end
@@ -42,9 +47,26 @@ describe SocialDash::Clients::TwitterClient do
     it "should delegate mentions to twitter gem" do
       social_app = mock(:social_app)
       social_app.stub(:settings).and_return({'credentials' => {}})
+      social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
       Twitter::Client.any_instance.should_receive(:mentions_timeline).and_return([])
       twt.mentions
+    end
+  end
+
+  describe '#cached_mentions' do
+    it "should cache #mentions" do
+      social_app = mock(:social_app)
+      social_app.stub(:settings).and_return({'credentials' => {}})
+      social_app.stub(:id).and_return(10)
+      twt = SocialDash::Clients::TwitterClient.new(social_app)
+      Twitter::Client.any_instance.stub(:mentions).and_return([])
+      Rails.cache.clear
+      twt.should_receive(:mentions)
+      twt.cached_mentions
+      twt.should_not_receive(:mentions)
+      Rails.cache.should_receive(:fetch)
+      twt.cached_mentions
     end
   end
 
@@ -52,6 +74,7 @@ describe SocialDash::Clients::TwitterClient do
     it "should delegate search for given terms to twitter gem" do
       social_app = mock(:social_app)
       social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+      social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
       Twitter::Client.any_instance.should_receive(:search).with('my company OR com').and_return([])
       twt.search_results
@@ -59,11 +82,11 @@ describe SocialDash::Clients::TwitterClient do
     it "should not hit twitter API if no search terms are set" do
       social_app = mock(:social_app)
       social_app.stub(:settings).and_return({'search_terms' => [],'credentials' => {}})
+      social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
       Twitter::Client.any_instance.should_not_receive(:search)
       twt.search_results
     end
-
   end
 
 end
