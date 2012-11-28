@@ -21,8 +21,9 @@
             :method => :post},
           :class => 'js-retweet' %>
     <% end %>
-    <a href='#' class='reply js-reply' data-tweet-id='<%= tweet.id %>'>
-      Reply
-    </a>
+    <%= link_to 'Reply','#',
+        :data => {'tweet-id' => tweet.id,
+          'tweet-screen-name' => tweet.user.screen_name},
+        :class => 'reply js-reply' %>
   </div>
 </div>

@@ -45,6 +45,10 @@ module SocialDash
         end
       end
 
+      def reply(reply_text,reply_to_id)
+        client.update(reply_text,:in_reply_to_status_id => reply_to_id)
+      end
+
     end
   end
 end

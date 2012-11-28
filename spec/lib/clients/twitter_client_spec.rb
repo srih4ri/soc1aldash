@@ -91,7 +91,7 @@ describe SocialDash::Clients::TwitterClient do
 
   describe '#retweet' do
     it 'should delegate retweet to twitter gem' do
-       social_app = mock(:social_app)
+      social_app = mock(:social_app)
       social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
       social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
@@ -99,7 +99,7 @@ describe SocialDash::Clients::TwitterClient do
       twt.retweet('1')
     end
     it 'should return nil when twitter raises exception' do
-       social_app = mock(:social_app)
+      social_app = mock(:social_app)
       social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
       social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
@@ -107,5 +107,15 @@ describe SocialDash::Clients::TwitterClient do
       twt.retweet('1').should eq(nil)
     end
 
+    describe '#reply' do
+      it 'should delegate reply to twitter gem' do
+        social_app = mock(:social_app)
+        social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+        social_app.stub(:id).and_return(10)
+        twt = SocialDash::Clients::TwitterClient.new(social_app)
+        Twitter::Client.any_instance.should_receive(:update).with('reply text',{:in_reply_to_status_id => 12}).and_return([])
+        twt.reply('reply text',12)
+      end
+    end
   end
 end
