@@ -1,1 +1,5 @@
-The twitter template
+<% twitter_client = @social_app.client_instance %>
+<h3>Mentions</h3>
+<% twitter_client.mentions.each do |tweet| %>
+  <%= render 'social_apps/twitter/tweet', :tweet => tweet %>
+<% end %>

@@ -1,0 +1,14 @@
+.tweet{
+  display: block;
+  padding: 0px 5px;
+  border-bottom: #333;
+}
+.tweet:hover{
+  background: #f5f5f5;
+}
+.tweet_text{
+  margin-bottom: 10px;
+  font-size: 16px;
+  font-weight: 200;
+  line-height: 30px;
+}

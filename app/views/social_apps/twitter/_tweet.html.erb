@@ -1,0 +1,26 @@
+<div class='tweet row-fluid'>
+  <div class='userinfo row-fluid  span9'>
+  <span class='name'>
+    <b><%= tweet.user.name %></b>
+  </span>
+  <span class='screenname'>
+    @<%= tweet.user.screen_name %>
+  </span>
+    <span class='timestamp pull-right'><%= link_to tweet.created_at.strftime('%I:%M %p, %d %B %y'),"https://twitter.com/#{tweet.user.screen_name}/statuses/#{tweet.id}" %></span>
+  </div>
+  <span class="tweet_text row-fluid  span9">
+    <%= tweet.text %>
+  </span>
+  <div class='actions row-fluid  span9'>
+    <% if tweet.retweeted %>
+      <span class='retweeted'>Retweeted</span>
+    <% else %>
+      <span class='retweet js-retweet' data-tweet-id='<%= tweet.id %>'>
+        Retweet
+      </span>
+    <% end %>
+    <span class='reply js-reply' data-tweet-id='<%= tweet.id %>'>
+      Reply
+    </span>
+  </div>
+</div>
