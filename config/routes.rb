@@ -6,6 +6,8 @@ SocialDash::Application.routes.draw do
 
   resources 'social_apps',:only => [:show,:index]
 
+  post 'social_apps/:id/twitter/retweet' => 'twitter#retweet' ,:as => :twitter_retweet
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

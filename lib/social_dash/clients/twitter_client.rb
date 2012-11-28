@@ -35,6 +35,16 @@ module SocialDash
         client.search(keywords)
       end
 
+      def retweet(tweet_id)
+        begin
+          tweet = client.retweet(tweet_id)
+          return tweet.first
+        rescue Twitter::Error::NotFound => e
+          Rails.logger.info "Twitter::Error::NotFound : #{e.message}"
+          return nil
+        end
+      end
+
     end
   end
 end

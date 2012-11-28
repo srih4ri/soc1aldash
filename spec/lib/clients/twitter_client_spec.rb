@@ -89,4 +89,23 @@ describe SocialDash::Clients::TwitterClient do
     end
   end
 
+  describe '#retweet' do
+    it 'should delegate retweet to twitter gem' do
+       social_app = mock(:social_app)
+      social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+      social_app.stub(:id).and_return(10)
+      twt = SocialDash::Clients::TwitterClient.new(social_app)
+      Twitter::Client.any_instance.should_receive(:retweet).with('1').and_return([])
+      twt.retweet('1')
+    end
+    it 'should return nil when twitter raises exception' do
+       social_app = mock(:social_app)
+      social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+      social_app.stub(:id).and_return(10)
+      twt = SocialDash::Clients::TwitterClient.new(social_app)
+      Twitter::Client.any_instance.stub(:retweet).and_raise(Twitter::Error::NotFound)
+      twt.retweet('1').should eq(nil)
+    end
+
+  end
 end
