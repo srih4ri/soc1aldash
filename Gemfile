@@ -30,6 +30,9 @@ gem 'twitter' # Interact with twitter API
 gem 'omniauth-facebook' # Facebook provider
 gem 'fb_graph' # Interact with facebook graph API
 
+group :development do
+  gem "factory_girl_rails"
+end
 
 gem "rspec-rails", :group => [:test, :development]
 group :test do
@@ -38,7 +41,6 @@ group :test do
   gem 'guard-spork'
   gem 'rb-inotify', '~> 0.8.8'
   gem 'shoulda-matchers'
-  gem "factory_girl_rails"
 end
 
 # To use ActiveModel has_secure_password
