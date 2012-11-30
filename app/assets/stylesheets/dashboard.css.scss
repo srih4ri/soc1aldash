@@ -1,0 +1,21 @@
+.dash_widget {
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  margin: 5px;
+  padding-top: 0px;
+  .heading {
+    background: #eee;
+    padding: 7px 2px;
+    margin: 0px;
+  }
+  h2{
+    text-align: center;
+    font-size: 50px;
+  }
+  a:hover {
+    text-decoration: none;
+  }
+  .span6 {
+    text-align: center;
+  }
+}

@@ -1,1 +1,7 @@
-DASHBOARD
+<div class='row'>
+  <% current_user.social_apps.each do |social_app| %>
+    <%= render "social_apps/#{social_app.provider}/dashboard_widget",
+        :api => social_app.client_instance,
+        :social_app => social_app  %>
+  <% end %>
+</div>
