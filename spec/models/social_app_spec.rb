@@ -64,4 +64,30 @@ describe SocialApp do
       social_app.client_instance.should be_instance_of(SocialDash::Clients::TwitterClient)
     end
   end
+
+  describe '#update_settings' do
+    let(:social_app){build(:social_app)}
+
+    before(:each) do
+      social_app.settings = {:existing_key => :existing_value,:existing_key1 => :existing_value1}
+      social_app.save
+    end
+
+    it 'should update an existing key' do
+      social_app.update_settings({:existing_key => :modified_value}).should eq(true)
+      social_app.reload
+      social_app.settings.should eq({:existing_key => :modified_value,:existing_key1 => :existing_value1})
+    end
+    it 'should not add a new key' do
+      social_app.update_settings({:new_key => :modified_value}).should eq(true)
+      social_app.reload
+      social_app.settings.should eq({:existing_key => :existing_value,:existing_key1 => :existing_value1})
+    end
+    it 'should persist unchanged keys' do
+      social_app.update_settings({:existing_key => :modified_value}).should eq(true)
+      social_app.reload
+      social_app.settings.should eq({:existing_key => :modified_value,:existing_key1 => :existing_value1})
+    end
+  end
+
 end

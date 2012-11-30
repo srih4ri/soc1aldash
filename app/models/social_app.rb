@@ -24,4 +24,10 @@ class SocialApp < ActiveRecord::Base
   def client_instance
     client.new(self)
   end
+
+  def update_settings(new_settings)
+    self.settings = settings.merge(new_settings.select {|k| settings.has_key? k })
+    self.save
+  end
+
 end
