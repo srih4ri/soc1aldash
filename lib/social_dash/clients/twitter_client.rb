@@ -49,6 +49,14 @@ module SocialDash
         client.update(reply_text,:in_reply_to_status_id => reply_to_id)
       end
 
+      def screen_name
+        client.user.screen_name
+      end
+
+      def cached_screen_name
+        Rails.cache.fetch("twitter_screen_name_#{@cache_key}_#{Time.now.to_i/1000}"){ screen_name }
+      end
+
     end
   end
 end

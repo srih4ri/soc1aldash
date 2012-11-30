@@ -106,16 +106,44 @@ describe SocialDash::Clients::TwitterClient do
       Twitter::Client.any_instance.stub(:retweet).and_raise(Twitter::Error::NotFound)
       twt.retweet('1').should eq(nil)
     end
+  end
 
-    describe '#reply' do
-      it 'should delegate reply to twitter gem' do
-        social_app = mock(:social_app)
-        social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
-        social_app.stub(:id).and_return(10)
-        twt = SocialDash::Clients::TwitterClient.new(social_app)
-        Twitter::Client.any_instance.should_receive(:update).with('reply text',{:in_reply_to_status_id => 12}).and_return([])
-        twt.reply('reply text',12)
-      end
+  describe '#reply' do
+    it 'should delegate reply to twitter gem' do
+      social_app = mock(:social_app)
+      social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+      social_app.stub(:id).and_return(10)
+      twt = SocialDash::Clients::TwitterClient.new(social_app)
+      Twitter::Client.any_instance.should_receive(:update).with('reply text',{:in_reply_to_status_id => 12}).and_return([])
+      twt.reply('reply text',12)
     end
   end
+
+  describe '#screen_name' do
+    it 'should delegate screen name to twitter gem' do
+      social_app = mock(:social_app)
+      social_app.stub(:settings).and_return({'credentials' => {}})
+      social_app.stub(:id).and_return(10)
+      twt = SocialDash::Clients::TwitterClient.new(social_app)
+      Twitter::Client.any_instance.stub_chain(:user,:screen_name).and_return('blah')
+      twt.screen_name.should eq('blah')
+    end
+  end
+
+  describe '#cached_screen_name' do
+    it "should cache #screen_name" do
+      social_app = mock(:social_app)
+      social_app.stub(:settings).and_return({'credentials' => {}})
+      social_app.stub(:id).and_return(10)
+      twt = SocialDash::Clients::TwitterClient.new(social_app)
+      Twitter::Client.any_instance.stub_chain(:user,:screen_name).and_return('blah')
+      Rails.cache.clear
+      twt.should_receive(:screen_name)
+      twt.cached_screen_name
+      twt.should_not_receive(:screen_name)
+      Rails.cache.should_receive(:fetch)
+      twt.cached_screen_name
+    end
+  end
+
 end
