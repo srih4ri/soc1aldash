@@ -53,6 +53,10 @@ describe SocialApp do
       social_app = build(:social_app,:provider => 'twitter')
       social_app.client.should eq(SocialDash::Clients::TwitterClient)
     end
+    it 'should return FacebookClient for facebook' do
+      social_app = build(:social_app,:provider => 'facebook')
+      social_app.client.should eq(SocialDash::Clients::FacebookClient)
+    end
   end
   describe '#client_instance' do
     it 'should return a new instance of client' do

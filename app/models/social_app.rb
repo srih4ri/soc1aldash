@@ -14,9 +14,11 @@ class SocialApp < ActiveRecord::Base
 
   def client
     #TODO: How to not access via full namespace
-    Hash.new(SocialDash::Clients::NilClient).merge({
-      'twitter' => SocialDash::Clients::TwitterClient
-    })[provider]
+    Hash.new(SocialDash::Clients::NilClient).
+      merge({
+              'twitter' => SocialDash::Clients::TwitterClient,
+              'facebook' => SocialDash::Clients::FacebookClient
+            })[provider]
   end
 
   def client_instance
