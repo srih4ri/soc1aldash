@@ -14,4 +14,9 @@ class SocialAppsController < ApplicationController
     @social_app = current_user.social_apps.find(params[:id])
     render @social_app.provider
   end
+
+  def settings
+    @social_app = current_user.social_apps.find(params[:id])
+    render "social_apps/#{@social_app.provider}/settings"
+  end
 end

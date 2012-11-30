@@ -4,10 +4,15 @@ SocialDash::Application.routes.draw do
 
   match 'auth/:provider/callback' => 'social_apps#create'
 
-  resources 'social_apps',:only => [:show,:index]
+  resources 'social_apps',:only => [:show,:index] do
+    member do
+      get 'settings'
+    end
+  end
 
   post 'social_apps/:id/twitter/retweet' => 'twitter#retweet' ,:as => :twitter_retweet
   post 'social_apps/:id/twitter/reply' => 'twitter#reply' ,:as => :twitter_reply
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
