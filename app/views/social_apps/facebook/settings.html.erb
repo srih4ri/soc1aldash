@@ -1,1 +1,16 @@
-FACEBOOK ACC SETTINGS
+<%= form_for(:settings,:url => facebook_update_settings_path(@social_app),:html => {:class => 'form-horizontal'}) do |f| %>
+  <legend>Facebook App Settings</legend>
+  <div class='control-group'>
+    <%= f.label :page_id,'Page',:class => 'control-label' %>
+    <div class='controls'>
+      <%= f.select :page_id,
+          @social_app.client_instance.available_pages.map{|page| [page.name,page.identifier]},
+          :selected => @social_app.settings['page_id'] %>
+    </div>
+  </div>
+  <div class='control-group'>
+    <div class='controls'>
+      <%= f.submit 'Save' ,:class => 'btn' %>
+    </div>
+  </div>
+<% end %>x

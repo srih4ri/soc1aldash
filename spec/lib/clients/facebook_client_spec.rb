@@ -6,13 +6,13 @@ describe SocialDash::Clients::FacebookClient do
     it 'should return settings from oauth hash' do
       omniauth_hash = {'provider' => :twitter,
         'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'}}
-      settings = {'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'}}
+      settings = {'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'},'page_id' => ''}
       SocialDash::Clients::FacebookClient.settings_for(omniauth_hash).should eq(settings)
     end
   end
 
   describe '#initialize' do
-    let(:settings) {{'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'}}}
+    let(:settings) {{'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'},'page_id' => '123'}}
     let(:social_app) do
       social_app = mock(:social_app)
       social_app.stub(:settings).and_return(settings)
@@ -31,4 +31,20 @@ describe SocialDash::Clients::FacebookClient do
 
   end
 
+  describe '#client' do
+    it 'should return an instance of fb_graph user' do
+      social_app = build(:fb_app)
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb.client.should be_instance_of(FbGraph::User)
+    end
+  end
+
+  describe '#available_pages' do
+    it 'should delegate fetching available pages to fb_graph' do
+      social_app = build(:fb_app)
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      FbGraph::User.any_instance.should_receive(:accounts).and_return([])
+      fb.available_pages.should eq([])
+    end
+  end
 end
