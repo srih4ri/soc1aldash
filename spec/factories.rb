@@ -9,14 +9,17 @@ FactoryGirl.define do
     provider 'prv'
     name 'name'
     uid 'q23q231324'
-  end
 
-  factory :twitter_app, :class => SocialApp do
-    user
-    provider 'twitter'
-    name 'name'
-    uid 'q23q231324'
-    settings ({'search_terms' => ['my company','com'],'credentials' => {}})
+    factory :twitter_app do
+      provider 'twitter'
+      settings ({'search_terms' => ['my company','com'],'credentials' => {}})
+    end
+
+    factory :fb_app do
+      provider 'facebook'
+      settings ({'credentials' => '','page_id' => ''})
+    end
+
   end
 
 end
