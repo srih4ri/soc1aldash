@@ -57,6 +57,11 @@ module SocialDash
         Rails.cache.fetch("twitter_screen_name_#{@cache_key}_#{Time.now.to_i/1000}"){ screen_name }
       end
 
+      def unread_items_count
+        #TODO: Return Real unread items count
+        9
+      end
+
     end
   end
 end
