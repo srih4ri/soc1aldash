@@ -28,6 +28,7 @@ gem 'omniauth' # Auth to social apps
 gem 'omniauth-twitter' # Twitter provider
 gem 'twitter' # Interact with twitter API
 gem 'omniauth-facebook' # Facebook provider
+gem 'fb_graph' # Interact with facebook graph API
 
 
 gem "rspec-rails", :group => [:test, :development]
