@@ -42,6 +42,19 @@ module SocialDash
           :message => escape_single_qoutes(comment))
       end
 
+      def user_name
+        client.fetch.name
+      end
+
+      def page_name
+        unless @page_id.blank?
+          fetch_fql("SELECT name FROM page WHERE page_id = #{@page_id}").first['name']
+        end
+      end
+
+      def unread_items_count
+        10
+      end
       private
 
       def fetch_fql(query)
@@ -54,7 +67,7 @@ module SocialDash
 
       def escape_single_qoutes(str)
         str.gsub(/'/, {"'" => "\'"})
-     end
+      end
     end
 
   end

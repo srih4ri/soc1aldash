@@ -89,6 +89,7 @@ describe SocialDash::Clients::FacebookClient do
       FbGraph::Post.should_receive(:new).with('123').and_return(fb_post)
       fb.like!('123')
     end
+  end
 
   describe '#comment!' do
     it 'should delegate comment! to fb_graph' do
@@ -100,5 +101,36 @@ describe SocialDash::Clients::FacebookClient do
       fb.comment!('123',"You're Kampf")
     end
   end
+
+  describe '#page_name' do
+    context 'when page_id is present' do
+      it 'should fetch page name by fql' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.should_receive(:fetch_fql).with("SELECT name FROM page WHERE page_id = 1").and_return([{'name' => 'page name'}])
+        fb.page_name.should eq('page name')
+      end
+    end
+    context 'when page_name is not present' do
+      it 'should return nil' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => ''})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.should_not_receive(:fetch_fql)
+        fb.page_name.should be_nil
+      end
+    end
+  end
+
+  describe '#user_name' do
+    it 'should fetch username from fb_graph' do
+      social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb_user = mock(:fb_user)
+      fb_user.should_receive(:name).and_return('srihari')
+      fb_client = mock(:fb_client)
+      fb_client.should_receive(:fetch).and_return(fb_user)
+      fb.should_receive(:client).and_return(fb_client)
+      fb.user_name.should eq('srihari')
+    end
   end
 end
