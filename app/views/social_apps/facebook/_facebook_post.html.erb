@@ -14,6 +14,7 @@
   </span>
   <div class='actions row-fluid  span9'>
     <span class='like-count'><%= post['likes']['count'] %> Likes</span>
+    <span class='comment-count'><%= post['comments']['count'] %> Comments</span>
     <% if post['likes']['user_likes'] %>
       <span class='liked'>Liked</span>
     <% else %>
