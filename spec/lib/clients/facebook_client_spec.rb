@@ -53,12 +53,22 @@ describe SocialDash::Clients::FacebookClient do
   end
 
   describe '#page_posts' do
-    it 'should fetch posts using fql query' do
-      social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
-      fb = SocialDash::Clients::FacebookClient.new(social_app)
-      fb.should_receive(:fetch_fql).with("SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = 1 AND actor_id != source_id").and_return([])
-      fb.page_posts.should eq([])
+    context 'when page_id is set' do
+      it 'should fetch posts using fql query' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.should_receive(:fetch_fql).with("SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = 1 AND actor_id != source_id").and_return([])
+        fb.page_posts.should eq([])
+      end
     end
+    context 'when page_id is not set' do
+      it 'should raise an exception' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => ''})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        expect { fb.page_posts }.to raise_exception('PageIdNotSet')
+      end
+    end
+
   end
 
   describe '#name_from_id' do

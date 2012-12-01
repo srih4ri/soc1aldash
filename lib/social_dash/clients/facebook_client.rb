@@ -22,7 +22,11 @@ module SocialDash
       end
 
       def page_posts
-           fetch_fql "SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = #{@page_id} AND actor_id != source_id"
+        if @page_id.blank?
+          raise 'PageIdNotSet'
+        else
+          fetch_fql "SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = #{@page_id} AND actor_id != source_id"
+        end
       end
 
       def name_from_id(id)
