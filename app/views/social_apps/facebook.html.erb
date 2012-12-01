@@ -1,1 +1,29 @@
 <%= link_to 'Settings',settings_social_app_path(@social_app) %>
+<%# api.page_posts.each do |post| %>
+  <%#= debug post %>
+<%# end %>
+<% facebook_client = @social_app.client_instance %>
+<% facebook_client.page_posts.each do |post| %>
+  <%= render 'social_apps/facebook/facebook_post',
+      :post => post,
+      :facebook_api => facebook_client %> 
+<% end %>
+
+<div id="js-fb-reply-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="myModalLabel">Reply</h3>
+  </div>
+  <%= form_for :comment ,:url => facebook_comment_path, :remote => true,:html => {:id => 'js-fb-comment-form'} do |f| %>
+    <div class="modal-body">
+      <div class='js-in-reply-to'></div>
+      <%= f.text_area :text,:size => '60x3',:class => 'input-xlarge',:id => 'js-reply-text'%>
+      <%= f.hidden_field :in_reply_to_id,:class => 'js-reply-to-id' %>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <%= f.submit 'Reply',:class => 'btn btn-primary'  %>
+    </div>
+  <% end %>
+</div>
