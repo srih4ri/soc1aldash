@@ -25,12 +25,12 @@ module SocialDash
         if @page_id.blank?
           raise 'PageIdNotSet'
         else
-          fetch_fql "SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = #{@page_id} AND actor_id != source_id"
+          fetch_fql "SELECT actor_id,message,created_time,post_id,likes,comments,likes.count,permalink FROM stream WHERE source_id = #{@page_id} AND actor_id != source_id"
         end
       end
 
       def name_from_id(id)
-        fetch_fql "SELECT name FROM user WHERE uid = #{id}"
+        fetch_fql("SELECT name FROM user WHERE uid = #{id}").first['name']
       end
 
       private

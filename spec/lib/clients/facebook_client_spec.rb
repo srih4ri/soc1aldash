@@ -57,7 +57,7 @@ describe SocialDash::Clients::FacebookClient do
       it 'should fetch posts using fql query' do
         social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
         fb = SocialDash::Clients::FacebookClient.new(social_app)
-        fb.should_receive(:fetch_fql).with("SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = 1 AND actor_id != source_id").and_return([])
+        fb.should_receive(:fetch_fql).with("SELECT actor_id,message,created_time,post_id,likes,comments,likes.count,permalink FROM stream WHERE source_id = 1 AND actor_id != source_id").and_return([])
         fb.page_posts.should eq([])
       end
     end
@@ -75,7 +75,7 @@ describe SocialDash::Clients::FacebookClient do
     it 'should fetch name from id using fql query' do
       social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
       fb = SocialDash::Clients::FacebookClient.new(social_app)
-      fb.should_receive(:fetch_fql).with("SELECT name FROM user WHERE uid = 1").and_return('srihari')
+      fb.should_receive(:fetch_fql).with("SELECT name FROM user WHERE uid = 1").and_return([{'name' => 'srihari'}])
       fb.name_from_id(1).should eq('srihari')
     end
   end
