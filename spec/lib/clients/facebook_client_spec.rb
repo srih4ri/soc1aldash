@@ -4,7 +4,7 @@ describe SocialDash::Clients::FacebookClient do
 
   describe '.settings_for' do
     it 'should return settings from oauth hash' do
-      omniauth_hash = {'provider' => :twitter,
+      omniauth_hash = {'provider' => :facebook,
         'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'}}
       settings = {'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr'},'page_id' => ''}
       SocialDash::Clients::FacebookClient.settings_for(omniauth_hash).should eq(settings)
@@ -19,7 +19,7 @@ describe SocialDash::Clients::FacebookClient do
       social_app.stub(:id).and_return(10)
       social_app
     end
-    let(:fb){SocialDash::Clients::TwitterClient.new(social_app)}
+    let(:fb){SocialDash::Clients::FacebookClient.new(social_app)}
 
     it 'should set credentials' do
       fb.instance_variable_get('@credentials').should eq(settings['credentials'])
@@ -27,6 +27,10 @@ describe SocialDash::Clients::FacebookClient do
 
     it 'should set cache_key' do
       fb.instance_variable_get('@cache_key').should eq(10)
+    end
+
+    it 'should set cache_key' do
+      fb.instance_variable_get('@page_id').should eq('123')
     end
 
   end
