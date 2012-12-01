@@ -33,11 +33,28 @@ module SocialDash
         fetch_fql("SELECT name FROM user WHERE uid = #{id}").first['name']
       end
 
+      def like!(post_id)
+        post_from_id(post_id).like!({:access_token => @credentials['token']})
+      end
+
+      def comment!(post_id,comment)
+        post_from_id(post_id).comment!(:access_token => @credentials['token'],
+          :message => escape_single_qoutes(comment))
+      end
+
       private
 
       def fetch_fql(query)
         FbGraph::Query.new(query).fetch(@credentials['token'])
       end
+
+      def post_from_id(post_id)
+        FbGraph::Post.new(post_id)
+      end
+
+      def escape_single_qoutes(str)
+        str.gsub(/'/, {"'" => "\'"})
+     end
     end
 
   end

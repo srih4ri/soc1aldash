@@ -80,4 +80,25 @@ describe SocialDash::Clients::FacebookClient do
     end
   end
 
+  describe '#like!' do
+    it 'should delegate like! to fb_graph' do
+      social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb_post = stub(:fb_post)
+      fb_post.should_receive(:like!).with({:access_token => 'token'}).and_return('1')
+      FbGraph::Post.should_receive(:new).with('123').and_return(fb_post)
+      fb.like!('123')
+    end
+
+  describe '#comment!' do
+    it 'should delegate comment! to fb_graph' do
+      social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb_post = stub(:fb_post)
+      fb_post.should_receive(:comment!).with({:access_token => 'token',:message => "You\'re Kampf"}).and_return('1')
+      FbGraph::Post.should_receive(:new).with('123').and_return(fb_post)
+      fb.comment!('123',"You're Kampf")
+    end
+  end
+  end
 end
