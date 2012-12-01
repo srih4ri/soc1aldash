@@ -21,6 +21,19 @@ module SocialDash
         client.accounts
       end
 
+      def page_posts
+           fetch_fql "SELECT actor_id,message,created_time,post_id,likes,comments,likes.count FROM stream WHERE source_id = #{@page_id} AND actor_id != source_id"
+      end
+
+      def name_from_id(id)
+        fetch_fql "SELECT name FROM user WHERE uid = #{id}"
+      end
+
+      private
+
+      def fetch_fql(query)
+        FbGraph::Query.new(query).fetch(@credentials['token'])
+      end
     end
 
   end
