@@ -13,6 +13,8 @@ SocialDash::Application.routes.draw do
   post 'social_apps/:id/twitter/retweet' => 'twitter#retweet' ,:as => :twitter_retweet
   post 'social_apps/:id/twitter/reply' => 'twitter#reply' ,:as => :twitter_reply
 
+  post 'social_apps/:id/facebook/like' => 'facebook#like' ,:as => :facebook_like
+  post 'social_apps/:id/facebook/comment' => 'facebook#comment' ,:as => :facebook_comment
   post 'social_apps/:id/facebook/update_settings' => 'facebook#update_settings', :as => :facebook_update_settings
 
   # The priority is based upon order of creation:
