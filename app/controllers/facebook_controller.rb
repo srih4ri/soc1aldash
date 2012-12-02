@@ -22,4 +22,10 @@ class FacebookController < ApplicationController
     blocked_users = social_app.client_instance.block!(params[:user][:identifier])
     render :json => blocked_users
   end
+
+  def blocked
+    @social_app = current_user.social_apps.find(params[:id])
+    @blocked_users = @social_app.client_instance.blocked
+    render 'social_apps/facebook/blocked'
+  end
 end

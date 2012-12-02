@@ -15,12 +15,14 @@ SocialDash::Application.routes.draw do
   post 'social_apps/:id/twitter/update_settings' => 'twitter#update_settings', :as => :twitter_update_settings
   get 'social_apps/:id/twitter/search_results' => 'twitter#search_results', :as => :twitter_search_results
   post 'social_apps/:id/twitter/block' => 'twitter#block',:as => :twitter_block
-  get 'social_apps/:id/twitter/unblocking' => 'twitter#blocking', :as => :twitter_blocking
+  get 'social_apps/:id/twitter/blocked' => 'twitter#blocking', :as => :twitter_blocking
 
   post 'social_apps/:id/facebook/like' => 'facebook#like' ,:as => :facebook_like
   post 'social_apps/:id/facebook/comment' => 'facebook#comment' ,:as => :facebook_comment
   post 'social_apps/:id/facebook/update_settings' => 'facebook#update_settings', :as => :facebook_update_settings
   post 'social_apps/:id/facebook/block' => 'facebook#block',:as => :facebook_block
+  get 'social_apps/:id/facebook/blocked' => 'facebook#blocked', :as => :facebook_blocked
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

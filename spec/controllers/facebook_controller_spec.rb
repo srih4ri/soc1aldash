@@ -87,4 +87,31 @@ describe FacebookController do
     end
   end
 
+  describe 'GET #blocking' do
+    context 'with a signed in user' do
+      let(:user){ create(:user)}
+      let(:fb_app){ create(:fb_app,:user => user) }
+      before(:each) do
+        sign_in user
+        SocialDash::Clients::FacebookClient.any_instance.stub(:blocked).and_return([1,2])
+      end
+
+      it 'assigns social app' do
+        get :blocked, :id => fb_app.id
+        assigns(:social_app).should eq(fb_app)
+      end
+
+      it 'assigns list of blocked users' do
+        get :blocked, :id => fb_app.id
+        assigns(:blocked_users).should eq([1,2])
+      end
+
+      it 'renders blocking page' do
+        get :blocked, :id => fb_app.id
+        response.should render_template 'social_apps/facebook/blocked'
+      end
+
+    end
+  end
+
 end
