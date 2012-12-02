@@ -9,7 +9,7 @@ module SocialDash
       end
 
       def self.settings_for(oauth_response)
-        {'credentials' => oauth_response['credentials']}
+        {'credentials' => oauth_response['credentials'],'search_terms' => ''}
       end
 
       def client

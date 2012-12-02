@@ -7,7 +7,7 @@ describe SocialDash::Clients::TwitterClient do
         {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr',
           'secret' => 'ZhuIfIghQiLI2U8xmm1JYdd91qhpM8mQOrHBrius4z'}}
       settings = {'credentials' => {'token' =>  '17567838-os24N3MDQNjTnIsa4IW26SPZmpSxo2nvXWvjVb4cr',
-          'secret' => 'ZhuIfIghQiLI2U8xmm1JYdd91qhpM8mQOrHBrius4z'} }
+          'secret' => 'ZhuIfIghQiLI2U8xmm1JYdd91qhpM8mQOrHBrius4z'},'search_terms' => '' }
       SocialDash::Clients::TwitterClient.settings_for(omniauth_hash).should eq(settings)
     end
   end
