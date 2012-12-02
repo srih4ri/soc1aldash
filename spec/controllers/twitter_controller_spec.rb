@@ -93,4 +93,39 @@ describe TwitterController do
 
     end
   end
+  describe 'POST #block' do
+    context 'with a signed in user' do
+      context 'when target user exists' do
+        let(:user){ create(:user)}
+        let(:twitter_app){ create(:twitter_app,:user => user) }
+        before(:each) do
+          sign_in user
+        end
+        it 'should block user' do
+          twitter_results = [{:screen_name => 'bob'}]
+          SocialDash::Clients::TwitterClient.any_instance.should_receive(:block).with('bob').and_return(twitter_results)
+          post :block, :id => twitter_app.id, :user => {:screen_name => 'bob'}
+        end
+        it 'should render json of blocked user' do
+          twitter_results = [{:screen_name => 'bob'}]
+          SocialDash::Clients::TwitterClient.any_instance.should_receive(:block).with('bob').and_return(twitter_results)
+          post :block, :id => twitter_app.id, :user => {:screen_name => 'bob'}
+          response.body.should eq(twitter_results.to_json)
+        end
+      end
+      context 'when target user does not exist' do
+        let(:user){ create(:user)}
+        let(:twitter_app){ create(:twitter_app,:user => user) }
+        before(:each) do
+          sign_in user
+        end
+        it 'should render 404' do
+          SocialDash::Clients::TwitterClient.any_instance.should_receive(:block).with('bob').and_return(nil)
+          post :block, :id => twitter_app.id, :user => {:screen_name => 'bob'}
+          response.body.should eq({:error => 'User Not found'}.to_json)
+          response.response_code.should eq(404)
+        end
+      end
+    end
+  end
 end

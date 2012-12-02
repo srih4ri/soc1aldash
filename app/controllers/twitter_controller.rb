@@ -24,4 +24,15 @@ class TwitterController < ApplicationController
     @search_results = @social_app.client_instance.cached_search_results
     render 'social_apps/twitter/search_results'
   end
+
+  def block
+    @social_app = current_user.social_apps.find(params[:id])
+    blocked_users = @social_app.client_instance.block(params[:user][:screen_name])
+    if blocked_users.nil?
+      render :json => {:error => "User Not found"},:status => 404
+    else
+      render :json => blocked_users
+    end
+  end
+
 end
