@@ -66,4 +66,25 @@ describe FacebookController do
     end
   end
 
+  describe 'POST #block' do
+    context 'with a signed in user' do
+      let(:user){ create(:user)}
+      let(:fb_app){ create(:fb_app,:user => user) }
+      before(:each) do
+        sign_in user
+      end
+      it 'should block user' do
+        fb_results = [{'identifier' => '123'}]
+        SocialDash::Clients::FacebookClient.any_instance.should_receive(:block!).with('123').and_return(fb_results)
+        post :block, :id => fb_app.id, :user => {:identifier => '123'}
+      end
+      it 'should render json of blocked user' do
+        fb_results = [{'identifier' => '123'}]
+        SocialDash::Clients::FacebookClient.any_instance.stub(:block!).with('123').and_return(fb_results)
+        post :block, :id => fb_app.id, :user => {:identifier => '123'}
+        response.body.should eq(fb_results.to_json)
+      end
+    end
+  end
+
 end

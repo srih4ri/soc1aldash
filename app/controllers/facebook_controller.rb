@@ -16,4 +16,10 @@ class FacebookController < ApplicationController
     comment = @social_app.client_instance.comment!(params[:comment][:in_reply_to_id],params[:comment][:text])
     render :json => {:fb_object_id => comment.identifier}
   end
+
+  def block
+    social_app = current_user.social_apps.find(params[:id])
+    blocked_users = social_app.client_instance.block!(params[:user][:identifier])
+    render :json => blocked_users
+  end
 end
