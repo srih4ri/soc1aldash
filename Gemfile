@@ -41,6 +41,7 @@ group :test do
   gem 'guard-spork'
   gem 'rb-inotify', '~> 0.8.8'
   gem 'shoulda-matchers'
+  gem 'timecop'
 end
 
 # To use ActiveModel has_secure_password
