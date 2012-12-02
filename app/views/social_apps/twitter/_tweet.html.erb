@@ -25,5 +25,8 @@
         :data => {'tweet-id' => tweet.id,
           'tweet-screen-name' => tweet.user.screen_name},
         :class => 'reply js-reply' %>
+    <%= link_to 'Block user','#',
+        :data => {'tweet-screen-name' => tweet.user.screen_name},
+        :class => 'reply js-twitter-block' %>
   </div>
 </div>

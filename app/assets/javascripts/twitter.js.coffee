@@ -33,3 +33,18 @@ jQuery ->
   ).on('ajax:error',(err) ->
    App.alert('Could not reply ,Please try again later')
   )
+
+  $('.js-twitter-block').on('click', (ev) ->
+    screen_name = $(this).data('tweet-screen-name')
+    $('#js-twitter-block-modal .js-confirm b').html(screen_name)
+    $('#js-twitter-block-modal .js-screen-name').val(screen_name)
+    $('#js-twitter-block-modal').modal()
+  )
+
+  $('#js-twitter-block-form').on('ajax:success', (evt,data,status,xhr)->
+     $('#js-twitter-block-modal').modal('hide')
+     App.alert("Blocked user #{data[0].screen_name}")
+  ).on('ajax:error',(err) ->
+   $('#js-twitter-block-modal').modal('hide')
+   App.alert('Could not block user ,Please try again later')
+  )
