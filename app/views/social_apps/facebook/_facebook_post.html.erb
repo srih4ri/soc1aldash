@@ -27,5 +27,8 @@
     <%= link_to 'Reply','#',
         :data => {'fb-object-id' => post['post_id']},
         :class => 'reply js-fb-reply'  %>
+    <%= link_to 'Block User','#',
+        :data => {'fb-user-id' => post['actor_id']},
+        :class => 'reply js-fb-block'  %>
   </div>
 </div>

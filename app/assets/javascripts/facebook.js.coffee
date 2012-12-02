@@ -20,3 +20,19 @@ jQuery ->
   ).on('ajax:error',(err) ->
    App.alert('Could not comment ,Please try again later')
   )
+
+  $('.js-fb-block').on('click', (ev) ->
+    user_id = $(this).data('fb-user-id')
+    user_name = $(this).data('fb-user-name')
+    $('#js-fb-block-modal .js-confirm b').html(user_name)
+    $('#js-fb-block-modal .js-user-name').val(user_id)
+    $('#js-fb-block-modal').modal()
+  )
+
+  $('#js-fb-block-form').on('ajax:success', (evt,data,status,xhr)->
+     $('#js-fb-block-modal').modal('hide')
+     App.alert("Blocked user.")
+  ).on('ajax:error',(err) ->
+   $('#js-fb-block-modal').modal('hide')
+   App.alert('Could not block user ,Please try again later')
+  )
