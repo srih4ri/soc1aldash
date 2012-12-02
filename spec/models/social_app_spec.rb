@@ -89,5 +89,13 @@ describe SocialApp do
       social_app.settings.should eq({:existing_key => :modified_value,:existing_key1 => :existing_value1})
     end
   end
-
+  describe '#update last_fetched_at!' do
+    let(:social_app){create(:social_app)}
+    it 'should update last_fetched_at! to current time' do
+      Timecop.freeze
+      social_app.update_last_fetched_at!
+      social_app.reload.last_fetched_at.to_i.should eq(Time.zone.now.to_i)
+      Timecop.return
+    end
+  end
 end

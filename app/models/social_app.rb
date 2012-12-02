@@ -30,4 +30,8 @@ class SocialApp < ActiveRecord::Base
     self.save
   end
 
+  def update_last_fetched_at!
+    update_attribute(:last_fetched_at,Time.zone.now)
+  end
+
 end
