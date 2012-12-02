@@ -3,6 +3,10 @@
 <% twitter_client.cached_mentions.each do |tweet| %>
   <%= render 'social_apps/twitter/tweet', :tweet => tweet %>
 <% end %>
+<h3>Search Results</h3>
+<% twitter_client.cached_search_results.each do |tweet| %>
+  <%= render 'social_apps/twitter/tweet', :tweet => tweet %>
+<% end %>
 
 
 <div id="js-reply-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
