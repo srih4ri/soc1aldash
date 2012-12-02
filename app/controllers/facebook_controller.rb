@@ -1,4 +1,6 @@
 class FacebookController < ApplicationController
+  before_filter :authenticate_user!
+
   def update_settings
     @social_app = current_user.social_apps.find(params[:id])
     @social_app.update_settings(params[:settings])
