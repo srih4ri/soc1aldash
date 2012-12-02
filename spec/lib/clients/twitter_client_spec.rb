@@ -193,4 +193,14 @@ describe SocialDash::Clients::TwitterClient do
       end
     end
   end
+
+  describe '#blocking' do
+    it 'should delegate blocking to twitter api' do
+      twitter_app = build(:twitter_app)
+      Twitter::Client.any_instance.should_receive(:blocking).and_return([1,2])
+      twt = SocialDash::Clients::TwitterClient.new(twitter_app)
+      twt.blocking.should eq([1,2])
+    end
+  end
+
 end

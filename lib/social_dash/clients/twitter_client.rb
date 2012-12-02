@@ -74,6 +74,10 @@ module SocialDash
         end
       end
 
+      def blocking
+        client.blocking
+      end
+
     end
   end
 end
