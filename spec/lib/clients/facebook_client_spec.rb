@@ -145,4 +145,16 @@ describe SocialDash::Clients::FacebookClient do
       fb.block!(123)
     end
   end
+  describe '#blocked' do
+    it 'should delegate blocked list to fb_graph' do
+      social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+      fb_user = mock(:fb_user)
+      page = mock(:page)
+      page.should_receive(:blocked).with(:access_token => 'token').and_return([{:identifier => 1}])
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb.should_receive(:managed_page).and_return(page)
+      fb.blocked
+    end
+  end
+
 end
