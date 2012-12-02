@@ -1,0 +1,11 @@
+<%= form_for(resource, :as => resource_name, :url => password_path(resource_name), :html => { :method => :post,:class => 'form-signin' }) do |f| %>
+  <%= devise_error_messages! %>
+
+  <%= f.label :email %>
+  <%= f.email_field :email %>
+
+  <%= f.submit "Send me reset password instructions",:class => 'btn btn-info' %>
+  <p>
+    <%= render "devise/shared/links" %>
+  </p>
+<% end %>

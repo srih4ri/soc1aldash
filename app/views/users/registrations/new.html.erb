@@ -1,0 +1,21 @@
+<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name),:html => {:class => 'form-signin'}) do |f| %>
+  <%= devise_error_messages! %>
+
+  <h2 class="form-signin-heading">Sign Up</h2>
+  <%= f.label :email %>
+  <%= f.email_field :email, :placeholder => 'Email address',:class => 'input-block-level' %>
+
+
+  <%= f.label :password %>
+  <%= f.password_field :password,:placeholder => 'Password',:class => 'input-block-level' %>
+
+  <%= f.label :password_confirmation %>
+  <%= f.password_field :password_confirmation,:placeholder => 'Confirm Password',:class => 'input-block-level' %>
+
+
+  <%= f.submit "Sign Up",:class => 'btn btn-large btn-primary' %>
+  <p>
+    <%= render "users/shared/links" %>
+  </p>
+
+<% end %>
