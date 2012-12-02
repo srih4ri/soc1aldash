@@ -52,8 +52,16 @@ module SocialDash
         end
       end
 
+      def block!(user_id)
+       managed_page.block!([FbGraph::User.new(user_id)],:access_token => @credentials['token'])
+      end
+
       def unread_items_count
         10
+      end
+
+      def managed_page
+        FbGraph::Page.new(@page_id)
       end
       private
 
