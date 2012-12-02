@@ -15,6 +15,7 @@ SocialDash::Application.routes.draw do
   post 'social_apps/:id/twitter/update_settings' => 'twitter#update_settings', :as => :twitter_update_settings
   get 'social_apps/:id/twitter/search_results' => 'twitter#search_results', :as => :twitter_search_results
   post 'social_apps/:id/twitter/block' => 'twitter#block',:as => :twitter_block
+  get 'social_apps/:id/twitter/unblocking' => 'twitter#blocking', :as => :twitter_blocking
 
   post 'social_apps/:id/facebook/like' => 'facebook#like' ,:as => :facebook_like
   post 'social_apps/:id/facebook/comment' => 'facebook#comment' ,:as => :facebook_comment

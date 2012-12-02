@@ -128,4 +128,30 @@ describe TwitterController do
       end
     end
   end
+  describe 'GET #blocking' do
+    context 'with a signed in user' do
+      let(:user){ create(:user)}
+      let(:twitter_app){ create(:twitter_app,:user => user) }
+      before(:each) do
+        sign_in user
+        SocialDash::Clients::TwitterClient.any_instance.stub(:blocking).and_return([1,2])
+      end
+
+      it 'assigns social app' do
+        get :blocking, :id => twitter_app.id
+        assigns(:social_app).should eq(twitter_app)
+      end
+
+      it 'assigns list of blocked users' do
+        get :blocking, :id => twitter_app.id
+        assigns(:blocked_users).should eq([1,2])
+      end
+
+      it 'renders blocking page' do
+        get :blocking, :id => twitter_app.id
+        response.should render_template 'social_apps/twitter/blocking'
+      end
+
+    end
+  end
 end

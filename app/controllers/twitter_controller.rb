@@ -35,4 +35,10 @@ class TwitterController < ApplicationController
     end
   end
 
+  def blocking
+    @social_app = current_user.social_apps.find(params[:id])
+    @blocked_users = @social_app.client_instance.blocking
+    render 'social_apps/twitter/blocking'
+  end
+
 end

@@ -1,0 +1,11 @@
+<%= render 'social_apps/twitter/sub_nav',:social_app => @social_app %>
+<h5>Blocked Users</h5>
+<% @blocked_users.each do |user| %>
+  <div class='well'>
+    <%= user.name %>
+    <%= link_to user.screen_name,"http://twitter.com/#{user.screen_name}",:target => '_blank' %>
+    <p>
+      <%= user.description %>
+    </p>
+  </div>
+<% end %>
