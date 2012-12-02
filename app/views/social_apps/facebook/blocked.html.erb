@@ -1,0 +1,7 @@
+<%= render 'social_apps/facebook/sub_nav',:social_app => @social_app %>
+<h5>Blocked Users</h5>
+<% @blocked_users.each do |user| %>
+  <div class='well'>
+    <%= link_to user.raw_attributes['name'],"http://facebook.com/#{user.identifier}",:target => '_blank' %>
+  </div>
+<% end %>
