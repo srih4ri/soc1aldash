@@ -1,7 +1,17 @@
-<div class='row'>
+<div class='row-fluid dash-actions'>
+  <%= link_to('auth/twitter',:class => 'btn btn-large btn-info') do %>
+    <i class="icon-twitter"></i>Add Twitter
+  <% end %>
+  <%= link_to('auth/facebook',:class => 'btn btn-large btn-info') do %>
+    <i class="icon-facebook"></i>Add Facebook
+  <% end %>
+</div>
+<div class='row dash-widgets'>
+<div class='span12'>
   <% current_user.social_apps.each do |social_app| %>
     <%= render "social_apps/#{social_app.provider}/dashboard_widget",
         :api => social_app.client_instance,
         :social_app => social_app  %>
   <% end %>
+</div>
 </div>
