@@ -31,8 +31,12 @@ module SocialDash
         @search_terms.blank? ? [] : search(@search_terms)
       end
 
+      def cached_search_results
+        Rails.cache.fetch("twitter_search_results_#{@cache_key}_#{Time.now.to_i/1000}"){ search_results }
+      end
+
       def search(keywords)
-        client.search(keywords)
+        client.search(keywords).results
       end
 
       def retweet(tweet_id)
