@@ -71,28 +71,28 @@ describe SocialDash::Clients::TwitterClient do
   end
 
   describe '#search_results' do
-context 'when search_terms is set' do
-    it "should delegate search for given terms to twitter gem" do
-      social_app = mock(:social_app)
-      social_app.stub(:settings).and_return({'search_terms' => 'my company OR com','credentials' => {}})
-      social_app.stub(:id).and_return(10)
-      twt = SocialDash::Clients::TwitterClient.new(social_app)
-      twtr_results = mock(:twtr_results)
-      twtr_results.should_receive(:results).and_return([])
-      Twitter::Client.any_instance.should_receive(:search).with('my company OR com').and_return(twtr_results)
-      twt.search_results
+    context 'when search_terms is set' do
+      it "should delegate search for given terms to twitter gem" do
+        social_app = mock(:social_app)
+        social_app.stub(:settings).and_return({'search_terms' => 'my company OR com','credentials' => {}})
+        social_app.stub(:id).and_return(10)
+        twt = SocialDash::Clients::TwitterClient.new(social_app)
+        twtr_results = mock(:twtr_results)
+        twtr_results.should_receive(:results).and_return([])
+        Twitter::Client.any_instance.should_receive(:search).with('my company OR com').and_return(twtr_results)
+        twt.search_results
+      end
     end
-end
-context 'when search_terms is not set' do
-    it "should not hit twitter API" do
-      social_app = mock(:social_app)
-      social_app.stub(:settings).and_return({'search_terms' => [],'credentials' => {}})
-      social_app.stub(:id).and_return(10)
-      twt = SocialDash::Clients::TwitterClient.new(social_app)
-      Twitter::Client.any_instance.should_not_receive(:search)
-      twt.search_results
+    context 'when search_terms is not set' do
+      it "should not hit twitter API" do
+        social_app = mock(:social_app)
+        social_app.stub(:settings).and_return({'search_terms' => [],'credentials' => {}})
+        social_app.stub(:id).and_return(10)
+        twt = SocialDash::Clients::TwitterClient.new(social_app)
+        Twitter::Client.any_instance.should_not_receive(:search)
+        twt.search_results
+      end
     end
-end
   end
 
   describe '#cached_search_results' do

@@ -4,6 +4,7 @@ class TwitterController < ApplicationController
   def update_settings
     @social_app = current_user.social_apps.find(params[:id])
     @social_app.update_settings(params[:settings])
+    Rails.cache.clear("twitter_screen_name_#{@social_app.id}_#{Time.now.to_i/1000}")
     redirect_to @social_app
   end
 
