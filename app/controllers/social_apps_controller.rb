@@ -7,7 +7,7 @@ class SocialAppsController < ApplicationController
 
   def create
     app = current_user.social_apps.create_from_omniauth(env["omniauth.auth"])
-    redirect_to app, :notice => 'Successfully added Social App'
+    redirect_to settings_social_app_path(app), :notice => 'Successfully added Social App'
   end
 
   def show

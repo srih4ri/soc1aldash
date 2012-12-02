@@ -50,7 +50,7 @@ describe SocialAppsController do
 
       it "should redirect to the new social_app" do
         get :create, :provider => 'prv'
-        response.should redirect_to SocialApp.last
+        response.should redirect_to settings_social_app_path(SocialApp.last)
       end
     end
   end
