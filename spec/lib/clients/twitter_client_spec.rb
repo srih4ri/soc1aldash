@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SocialDash::Clients::TwitterClient do
+
   describe '.settings_for' do
     it 'should return settings from oauth hash' do
       omniauth_hash = {'provider' => :twitter,'credentials' =>
@@ -169,4 +170,27 @@ describe SocialDash::Clients::TwitterClient do
     end
   end
 
+  describe '#block' do
+    context 'with a existing target user' do
+      it 'should delegate block to twitter api' do
+        social_app = mock(:social_app)
+        social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+        social_app.stub(:id).and_return(10)
+        twt = SocialDash::Clients::TwitterClient.new(social_app)
+        blocked_user = mock(:blocked_user)
+        Twitter::Client.any_instance.should_receive(:block).with('gem').and_return(blocked_user)
+        twt.block('gem').should eq(blocked_user)
+      end
+    end
+    context 'with a non existent target user' do
+      it 'should return false' do
+        social_app = mock(:social_app)
+        social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+        social_app.stub(:id).and_return(10)
+        twt = SocialDash::Clients::TwitterClient.new(social_app)
+        Twitter::Client.any_instance.should_receive(:block).with('gem').and_raise(Twitter::Error::NotFound)
+        twt.block('gem').should eq(nil)
+      end
+    end
+  end
 end

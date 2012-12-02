@@ -66,6 +66,14 @@ module SocialDash
         9
       end
 
+      def block(screen_name)
+        begin
+          client.block(screen_name)
+        rescue  Twitter::Error::NotFound => e
+          return nil
+        end
+      end
+
     end
   end
 end
