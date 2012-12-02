@@ -1,3 +1,4 @@
+<%= render 'social_apps/twitter/sub_nav',:social_app => @social_app %>
 <%= form_for(:settings,:url => twitter_update_settings_path(@social_app),:html => {:class => 'form-horizontal'}) do |f| %>
   <legend>Twitter App Settings</legend>
   <div class='control-group'>

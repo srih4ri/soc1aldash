@@ -1,0 +1,18 @@
+<%= render 'social_apps/twitter/sub_nav', :social_app => @social_app %>
+
+<% if @search_results.present? %>
+  <h5>Search results for <span class="badge badge-info"><%= @social_app.settings['search_terms'] %></span></h5>
+  <% @search_results.each do |tweet| %>
+    <%= render 'social_apps/twitter/tweet', :tweet => tweet %>
+  <% end %>
+<% else %>
+  <div class="hero-unit">
+    <h3>No Search Results</h3>
+    <p>
+      No search results for the search term <span class="badge badge-info"><%= @social_app.settings['search_terms'] %></span>
+    </p>
+    <p>
+      <%= link_to 'Change Search Term',settings_social_app_path(@social_app),:class => "btn btn-primary btn-large"  %>
+    </p>
+  </div>
+<% end %>
