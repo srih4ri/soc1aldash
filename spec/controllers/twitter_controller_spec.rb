@@ -67,4 +67,30 @@ describe TwitterController do
     end
   end
 
+  describe 'GET #search_results' do
+    context 'with a signed in user' do
+      let(:user){ create(:user)}
+      let(:twitter_app){ create(:twitter_app,:user => user) }
+      before(:each) do
+        sign_in user
+        SocialDash::Clients::TwitterClient.any_instance.stub(:search_results).and_return([1,2])
+      end
+
+      it 'assigns social app' do
+        get :search_results, :id => twitter_app.id
+        assigns(:social_app).should eq(twitter_app)
+      end
+
+      it 'assigns search results' do
+        get :search_results, :id => twitter_app.id
+        assigns(:search_results).should eq([1,2])
+      end
+
+      it 'renders search_results page' do
+        get :search_results, :id => twitter_app.id
+        response.should render_template 'social_apps/twitter/search_results'
+      end
+
+    end
+  end
 end

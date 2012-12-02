@@ -18,4 +18,10 @@ class TwitterController < ApplicationController
       reply(params[:reply][:text],params[:reply][:in_reply_to_id].to_i)
     render :json => tweet
   end
+
+  def search_results
+    @social_app = current_user.social_apps.find(params[:id])
+    @search_results = @social_app.client_instance.cached_search_results
+    render 'social_apps/twitter/search_results'
+  end
 end
