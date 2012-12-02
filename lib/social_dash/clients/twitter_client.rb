@@ -28,7 +28,7 @@ module SocialDash
       end
 
       def search_results
-        @search_terms.blank? ? [] : search(@search_terms.join(' OR '))
+        @search_terms.blank? ? [] : search(@search_terms)
       end
 
       def search(keywords)

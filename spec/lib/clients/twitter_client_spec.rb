@@ -73,7 +73,7 @@ describe SocialDash::Clients::TwitterClient do
   describe '#search_results' do
     it "should delegate search for given terms to twitter gem" do
       social_app = mock(:social_app)
-      social_app.stub(:settings).and_return({'search_terms' => ['my company','com'],'credentials' => {}})
+      social_app.stub(:settings).and_return({'search_terms' => 'my company OR com','credentials' => {}})
       social_app.stub(:id).and_return(10)
       twt = SocialDash::Clients::TwitterClient.new(social_app)
       Twitter::Client.any_instance.should_receive(:search).with('my company OR com').and_return([])
