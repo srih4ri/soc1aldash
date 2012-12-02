@@ -65,6 +65,12 @@ describe SocialAppsController do
         get :show,:id => social_app.id
         assigns(:social_app).should eq(social_app)
       end
+
+      it 'should update last fetched at' do
+        SocialApp.any_instance.should_receive(:update_last_fetched_at!)
+        get :show,:id => social_app.id
+      end
+
       it 'should 404 for another guys social app' do
         another_user = create(:user)
         another_app = create(:social_app,:user => another_user)
@@ -102,6 +108,7 @@ describe SocialAppsController do
         another_app = create(:social_app,:user => another_user)
         expect{ get :settings,:id => another_user.id }.to raise_error(ActiveRecord::RecordNotFound)
       end
+
       context 'for facebook app' do
         it "should render facebook's tempalte" do
           get :settings,:id => social_app.id

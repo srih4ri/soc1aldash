@@ -13,6 +13,7 @@ class SocialAppsController < ApplicationController
   def show
     @social_app = current_user.social_apps.find(params[:id])
     render @social_app.provider
+    @social_app.update_last_fetched_at!
   end
 
   def settings
