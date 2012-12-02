@@ -45,4 +45,26 @@ describe TwitterController do
     end
   end
 
+  describe 'POST #update_settings' do
+    context 'with a signed in user' do
+      let(:user){ create(:user)}
+      let(:twitter_app){ create(:twitter_app,:user => user) }
+      before(:each) do
+        sign_in user
+      end
+
+      it 'update settings of social_app' do
+        SocialApp.any_instance.should_receive(:update_settings).with({'key' => 'value'})
+        post :update_settings ,:settings => {'key' => 'value'},:id => twitter_app.id
+      end
+
+      it 'redirect to show page' do
+        twitter_app.stub(:update_settings).with({'key' => 'value'})
+        post :update_settings ,:settings => {'key' => 'value'},:id => twitter_app.id
+        response.should redirect_to(social_app_path(twitter_app))
+      end
+
+    end
+  end
+
 end

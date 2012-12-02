@@ -89,6 +89,7 @@ describe SocialAppsController do
     context 'with a signed in user' do
       let(:user){ create(:user) }
       let(:social_app){ create(:social_app,:user => user,:provider => 'facebook') }
+      let(:twitter_app){ create(:twitter_app,:user => user)}
       before(:each) do
         sign_in user
       end
@@ -101,9 +102,17 @@ describe SocialAppsController do
         another_app = create(:social_app,:user => another_user)
         expect{ get :settings,:id => another_user.id }.to raise_error(ActiveRecord::RecordNotFound)
       end
-      it "should render provider's tempalte" do
-        get :settings,:id => social_app.id
-        response.should render_template 'social_apps/facebook/settings'
+      context 'for facebook app' do
+        it "should render facebook's tempalte" do
+          get :settings,:id => social_app.id
+          response.should render_template 'social_apps/facebook/settings'
+        end
+      end
+      context 'for twitter app' do
+        it "should render twitter's template" do
+          get :settings,:id => twitter_app.id
+          response.should render_template 'social_apps/twitter/settings'
+        end
       end
     end
     context 'without a signed in user' do
