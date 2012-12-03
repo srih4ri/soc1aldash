@@ -18,6 +18,19 @@
   .span6 {
     text-align: center;
   }
+  .detail {
+
+  }
+  .detail span{
+    display: none;
+  }
+  .detail:hover p{
+    display: none;
+  }
+  .detail:hover span{
+    display: inline;
+  }
+
 }
 .dash-actions{
   padding: 20px 0px;

@@ -1,10 +1,10 @@
 <div class='span3 dash_widget'>
   <h5 class='heading' ><%= api.user_name %>/<%= api.page_name%><i class="icon-facebook pull-right"></i></h5>
   <h2 class='text-info'>
-    <%= link_to api.unread_items_count,social_app %>
+    <%= link_to api.page_comment_count_after(social_app.last_fetched_at.to_i),social_app %>
   </h2>
   <div class='row-fluid'>
-    <div class='span6 text-info'><%= api.page_like_count %></div>
-    <div class='span6 text-info'><%= api.page_comment_count %></div>
+    <div class='span6 text-info detail'><p><%= api.page_like_count %></p><span>LIKES</span></div>
+    <div class='span6 text-info detail'><p><%= api.page_comment_count %></p><span>COMMENTS</span></div>
   </div>
 </div>
