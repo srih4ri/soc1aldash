@@ -216,5 +216,25 @@ describe SocialDash::Clients::FacebookClient do
       fb.delete_comment('123')
     end
   end
+  describe '#page_comment_count_after' do
+    context 'when page_id is not set' do
+      it 'should be 0' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => ''})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.should_not_receive(:fetch_fql)
+        fb.page_comment_count_after(Time.now.to_i).should eq(0)
+      end
+    end
+    context 'when page_id is set' do
+      it 'should fetch fql for comments since date' do
+        social_app = build(:fb_app,:settings => {'page_id' => 1})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        Timecop.freeze
+        fb.should_receive(:fetch_fql).with("SELECT actor_id FROM stream WHERE source_id = 1 AND actor_id != source_id AND created_time > #{Time.now.to_i}").and_return([1,2,3])
+        fb.page_comment_count_after(Time.now.to_i).should eq(3)
+        Timecop.return
+      end
+    end
+  end
 
 end
