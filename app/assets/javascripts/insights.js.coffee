@@ -1,20 +1,17 @@
 jQuery ->
+  element = $('#js-insights-graph')
   graph = new Rickshaw.Graph.Ajax(
     element: document.getElementById('js-insights-graph')
     width: 500
     height: 250
     renderer: "line"
     interpolation: "linear"
-    dataURL: $('#js-insights-graph').data('url')
-    onData: (d) ->
-      d[0].data[0].y = 80
-      d
-
+    dataURL: element.data('url')
     series: [
-      name: "retweet"
+      name: $(element).data('line1')
       color: "#c05020"
     ,
-      name: "replies"
+      name: $(element).data('line2')
       color: "#30c020"
     ]
     onComplete: (transport) ->

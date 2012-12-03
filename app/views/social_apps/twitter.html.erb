@@ -2,7 +2,7 @@
 <% twitter_client = @api %>
 <div class='container'>
   <div class='chart_container'>
-    <div id='js-insights-graph','class'='graph', data-url='<%= insights_social_app_url(@social_app) %>'></div>
+    <div id='js-insights-graph' 'class'='graph' data-line1='retweet_count' data-line2='reply_count' data-url='<%= insights_social_app_url(@social_app) %>'></div>
     <div id="rickshaw_legend_container">
       <div id="smoother" title="Smoothing"></div>
       <div id="rickshaw_legend"></div>

@@ -1,5 +1,15 @@
 <%= render 'social_apps/facebook/sub_nav',:social_app => @social_app %>
 <% facebook_client = @api %>
+<div class='container'>
+  <div class='chart_container'>
+    <div id='js-insights-graph' 'class'='graph' data-line1='likes' data-line2='comments' data-url='<%= insights_social_app_url(@social_app) %>'></div>
+    <div id="rickshaw_legend_container">
+      <div id="smoother" title="Smoothing"></div>
+      <div id="rickshaw_legend"></div>
+    </div>
+    <div id="rickshaw_slider"></div>
+  </div>
+</div>
 <% facebook_client.page_posts.each do |post| %>
   <%= render 'social_apps/facebook/facebook_post',
       :post => post,
