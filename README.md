@@ -1,13 +1,13 @@
-== Social Dash
+## Social Dash
 
 SocialDash fetches data from various social media accounts and
 presents it in a dashboard.
 
-=== Setup Instructions
+### Setup Instructions
 Install dependencies
-``
+```
 bundle install
-``
+```
 
 Create and migrate databse
 ```
