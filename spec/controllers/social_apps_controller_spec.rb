@@ -57,13 +57,18 @@ describe SocialAppsController do
   describe '#GET #show' do
     context 'with a signed in user' do
       let(:user){ create(:user) }
-      let(:social_app){ create(:social_app,:user => user,:provider => 'twitter') }
+      let(:social_app){ create(:twitter_app,:user => user) }
       before(:each) do
         sign_in user
       end
-      it 'should assign api' do
+      it 'should assign social_app' do
         get :show,:id => social_app.id
         assigns(:social_app).should eq(social_app)
+      end
+
+      it 'should assign api' do
+        get :show,:id => social_app.id
+        assigns(:api).should be_instance_of(SocialDash::Clients::TwitterClient)
       end
 
       it 'should update last fetched at' do

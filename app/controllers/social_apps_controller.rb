@@ -12,6 +12,7 @@ class SocialAppsController < ApplicationController
 
   def show
     @social_app = current_user.social_apps.find(params[:id])
+    @api = @social_app.client_instance
     render @social_app.provider
     @social_app.update_last_fetched_at!
   end

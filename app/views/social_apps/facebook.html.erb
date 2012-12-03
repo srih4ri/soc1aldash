@@ -1,5 +1,5 @@
 <%= render 'social_apps/facebook/sub_nav',:social_app => @social_app %>
-<% facebook_client = @social_app.client_instance %>
+<% facebook_client = @api %>
 <% facebook_client.page_posts.each do |post| %>
   <%= render 'social_apps/facebook/facebook_post',
       :post => post,
