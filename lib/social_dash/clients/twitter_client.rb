@@ -78,6 +78,18 @@ module SocialDash
         client.blocking
       end
 
+      def reply_count
+        client.mentions_timeline(:count => 100).select{|t| t.created_at > 1.day.ago}.count
+      end
+
+      def retweet_count
+        client.user_timeline(:include_rts => false,:count => 100).select{|t| t.created_at > 1.day.ago}.map(&:retweet_count).sum
+      end
+
+      def insights_data
+        {:reply_count => reply_count,:retweet_count => retweet_count }
+      end
+
     end
   end
 end

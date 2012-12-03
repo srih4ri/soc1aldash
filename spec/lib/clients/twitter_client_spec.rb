@@ -179,4 +179,36 @@ describe SocialDash::Clients::TwitterClient do
     end
   end
 
+  describe '#retweet_count' do
+    it 'should fetch user_timeline' do
+            twitter_app = build(:twitter_app)
+      tweet = mock(:tweet)
+      tweet.should_receive(:retweet_count).and_return(2)
+      tweet.should_receive(:created_at).and_return(Time.zone.now)
+      Twitter::Client.any_instance.should_receive(:user_timeline).with({:include_rts => false,:count => 100}).and_return([tweet])
+      twt = SocialDash::Clients::TwitterClient.new(twitter_app)
+      twt.retweet_count.should eq(2)
+
+    end
+  end
+  describe '#reply_count' do
+    it 'should fetch user mentions' do
+      twitter_app = build(:twitter_app)
+      tweet = mock(:tweet)
+      tweet.should_receive(:created_at).and_return(Time.zone.now)
+      Twitter::Client.any_instance.should_receive(:mentions_timeline).with({:count => 100}).and_return([tweet])
+      twt = SocialDash::Clients::TwitterClient.new(twitter_app)
+      twt.reply_count.should eq(1)
+    end
+
+  end
+  describe '#insights' do
+    it 'should return retweet_count and reply_count' do
+      twitter_app = build(:twitter_app)
+         twt = SocialDash::Clients::TwitterClient.new(twitter_app)
+      twt.should_receive(:reply_count).and_return(2)
+      twt.should_receive(:retweet_count).and_return(4)
+      twt.insights_data.should eq({:reply_count => 2,:retweet_count => 4})
+    end
+  end
 end
