@@ -205,4 +205,16 @@ describe SocialDash::Clients::FacebookClient do
       fb.insights_data.should eq({:likes => 5,:comments => 6})
     end
   end
+
+  describe '#delete_comment' do
+    it 'should delegate deleting of comment to fb_graph' do
+      social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => '1'})
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb_post = stub(:fb_post)
+      fb_post.should_receive(:destroy).with({:access_token => 'token'}).and_return('1')
+      FbGraph::Post.should_receive(:new).with('123').and_return(fb_post)
+      fb.delete_comment('123')
+    end
+  end
+
 end

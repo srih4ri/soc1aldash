@@ -88,6 +88,10 @@ module SocialDash
         {:likes => page_like_count,:comments => page_comment_count }
       end
 
+      def delete_comment(comment_id)
+        post_from_id(comment_id).destroy(:access_token => @credentials['token'])
+      end
+
       private
 
       def fetch_fql(query)
