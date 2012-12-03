@@ -42,4 +42,17 @@ class SocialApp < ActiveRecord::Base
     end
   end
 
+  def insights
+    insights = {}
+    app_insights.each do |data|
+      insights[data.metric] ||= []
+      insights[data.metric] << {:x => data.fetched_at.to_i,:y => data.value}
+    end
+    output = []
+    insights.each do |name,values|
+      output << {'name' => name,'data' => values}
+    end
+    output
+  end
+
 end

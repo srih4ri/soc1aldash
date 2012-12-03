@@ -99,7 +99,7 @@ describe SocialApp do
       Timecop.return
     end
   end
-  describe 'fetch_and_save_insights' do
+  describe '#fetch_and_save_insights' do
     let(:social_app){create(:twitter_app)}
     it 'should fetch insights from client' do
       SocialDash::Clients::TwitterClient.any_instance.should_receive(:insights_data).and_return({:k1 => 1})
@@ -114,6 +114,16 @@ describe SocialApp do
       social_app.app_insights.first.metric.should eq('k1')
       social_app.app_insights.first.value.should eq(1)
       social_app.app_insights.first.fetched_at.to_i.should eq(Time.zone.now.to_i)
+      Timecop.return
+    end
+  end
+  describe '#insights' do
+    let(:social_app){ create(:twitter_app) }
+
+    it 'should return insight data in grpahable format' do
+      Timecop.freeze
+      social_app.app_insights.create(:metric => 'm1',:value => 2,:fetched_at => Time.zone.now)
+      social_app.insights.should eq([{'name' => 'm1','data' => [{:x => Time.zone.now.to_i,:y => 2,}]}])
       Timecop.return
     end
   end
