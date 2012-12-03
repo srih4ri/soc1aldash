@@ -2,6 +2,7 @@ class SocialApp < ActiveRecord::Base
   attr_accessible :name, :provider, :uid
   belongs_to :user
   serialize :settings
+  has_many :app_insights
 
   def self.create_from_omniauth(auth)
     create! do |app|
@@ -32,6 +33,13 @@ class SocialApp < ActiveRecord::Base
 
   def update_last_fetched_at!
     update_attribute(:last_fetched_at,Time.zone.now)
+  end
+
+  def fetch_and_save_insights
+    insights_data = client_instance.insights_data
+    insights_data.each do |metric,value|
+      app_insights.create(:metric => metric,:value => value,:fetched_at => Time.zone.now)
+    end
   end
 
 end

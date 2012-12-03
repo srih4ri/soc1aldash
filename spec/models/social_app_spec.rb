@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe SocialApp do
   it {should belong_to(:user)}
+  it {should have_many(:app_insights)}
 
   describe '.create_from_omniauth' do
     let (:omniauth_hash) {{'provider' => 'prv','uid' => 'alongstringwithtoomany','info' => {'name' => 'srihari'}}}
@@ -95,6 +96,24 @@ describe SocialApp do
       Timecop.freeze
       social_app.update_last_fetched_at!
       social_app.reload.last_fetched_at.to_i.should eq(Time.zone.now.to_i)
+      Timecop.return
+    end
+  end
+  describe 'fetch_and_save_insights' do
+    let(:social_app){create(:twitter_app)}
+    it 'should fetch insights from client' do
+      SocialDash::Clients::TwitterClient.any_instance.should_receive(:insights_data).and_return({:k1 => 1})
+      social_app.fetch_and_save_insights
+    end
+    it 'should create app_insights for each insight' do
+      SocialDash::Clients::TwitterClient.any_instance.should_receive(:insights_data).and_return({:k1 => 1})
+      Timecop.freeze
+      social_app.fetch_and_save_insights
+      social_app.reload
+      social_app.app_insights.count.should eq(1)
+      social_app.app_insights.first.metric.should eq('k1')
+      social_app.app_insights.first.value.should eq(1)
+      social_app.app_insights.first.fetched_at.to_i.should eq(Time.zone.now.to_i)
       Timecop.return
     end
   end

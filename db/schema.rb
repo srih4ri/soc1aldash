@@ -11,7 +11,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121202213157) do
+ActiveRecord::Schema.define(:version => 20121203060552) do
+
+  create_table "app_insights", :force => true do |t|
+    t.integer  "social_app_id"
+    t.string   "metric"
+    t.integer  "value"
+    t.datetime "fetched_at"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "social_apps", :force => true do |t|
     t.string   "provider"
