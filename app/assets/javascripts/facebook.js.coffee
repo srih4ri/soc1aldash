@@ -36,3 +36,10 @@ jQuery ->
    $('#js-fb-block-modal').modal('hide')
    App.alert('Could not block user ,Please try again later')
   )
+
+  $('.js-fb-delete-comment').on('ajax:success',(evt,data,status,xhr) ->
+    $(this).parent().parent().hide()
+    App.alert("Deleted Post")
+  ).on('ajax:error',(err) ->
+    App.alert('Could not delete post,Please try again later')
+  )

@@ -30,5 +30,12 @@
     <%= link_to 'Block User','#',
         :data => {'fb-user-id' => post['actor_id']},
         :class => 'reply js-fb-block'  %>
+    <%= link_to 'Delete Post',facebook_delete_comment_path(@social_app),
+        :data => { :remote => true,
+          :method => :post,
+          :confirm => 'Delete this post?',
+          :params => {:comment_id => post['post_id']}},
+        :class => 'reply js-fb-delete-comment'  %>
+
   </div>
 </div>
