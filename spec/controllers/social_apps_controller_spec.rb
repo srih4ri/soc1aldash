@@ -138,6 +138,21 @@ describe SocialAppsController do
     end
   end
 
+  describe 'GET #insights' do
+
+    context 'with a signed in user' do
+      let(:user){ create(:user) }
+      let(:social_app){ create(:social_app,:user => user,:provider => 'facebook') }
+      before(:each) do
+        sign_in user
+      end
+      it 'should return json of insights' do
+        SocialApp.any_instance.stub(:insights).and_return({:a => 1})
+        get :insights,:id => social_app.id
+        response.body.should eq({:a => 1}.to_json)
+      end
+    end
+  end
 end
 
 def stub_env_for_omniauth
