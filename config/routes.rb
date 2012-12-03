@@ -7,6 +7,7 @@ SocialDash::Application.routes.draw do
   resources 'social_apps',:only => [:show,:index] do
     member do
       get 'settings'
+      get 'insights'
     end
   end
 

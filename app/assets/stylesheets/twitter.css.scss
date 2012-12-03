@@ -18,3 +18,21 @@
   height: 23px;
   width: 23px;
 }
+.chart {
+	display: inline-block;
+}
+#rickshaw_legend {
+	display: inline-block;
+	position: relative;
+	left: 8px;
+}
+#rickshaw_legend_container {
+	position: absolute;
+	right: 0;
+	bottom: 26px;
+	width: 0;
+}
+.chart_container {
+	float: left;
+	position: relative;
+}

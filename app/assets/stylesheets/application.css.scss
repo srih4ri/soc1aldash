@@ -10,6 +10,9 @@
  *
  *= require_self
  *= require_tree .
+ *= require rickshaw.min
+ *= require detail
+ *= require legend
  */
 
 @import "bootstrap";

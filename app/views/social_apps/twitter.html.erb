@@ -1,10 +1,21 @@
 <%= render 'social_apps/twitter/sub_nav',:social_app => @social_app %>
 <% twitter_client = @api %>
+<div class='container'>
+  <div class='chart_container'>
+    <div id='js-insights-graph','class'='graph', data-url='<%= insights_social_app_url(@social_app) %>'></div>
+    <div id="rickshaw_legend_container">
+      <div id="smoother" title="Smoothing"></div>
+      <div id="rickshaw_legend"></div>
+    </div>
+    <div id="rickshaw_slider"></div>
+  </div>
+</div>
 <h3>Mentions</h3>
-<% twitter_client.cached_mentions.each do |tweet| %>
-  <%= render 'social_apps/twitter/tweet', :tweet => tweet %>
-<% end %>
-
+<div class='container'>
+  <% twitter_client.cached_mentions.each do |tweet| %>
+    <%= render 'social_apps/twitter/tweet', :tweet => tweet %>
+  <% end %>
+</div>
 <div id="js-reply-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 
   <div class="modal-header">
@@ -12,16 +23,16 @@
     <h3 id="myModalLabel">Reply</h3>
   </div>
   <%= form_for :reply ,:url => twitter_reply_path, :remote => true,:html => {:id => 'js-reply-form'} do |f| %>
-    <div class="modal-body">
-      <div class='js-in-reply-to'></div>
-      <%= f.text_area :text,:size => '60x3',:class => 'input-xlarge',:id => 'js-reply-text'%>
-      <%= f.hidden_field :in_reply_to_id,:class => 'js-reply-to-id' %>
-    </div>
-    <div class="modal-footer">
-      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <%= f.submit 'Reply',:class => 'btn btn-primary'  %>
-    </div>
-  <% end %>
+  <div class="modal-body">
+    <div class='js-in-reply-to'></div>
+    <%= f.text_area :text,:size => '60x3',:class => 'input-xlarge',:id => 'js-reply-text'%>
+    <%= f.hidden_field :in_reply_to_id,:class => 'js-reply-to-id' %>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    <%= f.submit 'Reply',:class => 'btn btn-primary'  %>
+  </div>
+<% end %>
 
 </div>
 <%= render 'social_apps/twitter/twitter_block_modal' %>
