@@ -68,6 +68,26 @@ module SocialDash
         FbGraph::Page.new(@page_id)
       end
 
+      def page_comment_count
+        if @page_id.blank?
+          0
+        else
+          (fetch_fql "SELECT actor_id FROM stream WHERE source_id = #{@page_id} AND actor_id != source_id").count
+        end
+      end
+
+      def page_like_count
+        if @page_id.blank?
+          0
+        else
+          managed_page.fetch.like_count
+        end
+      end
+
+      def insights_data
+        {:likes => page_like_count,:comments => page_comment_count }
+      end
+
       private
 
       def fetch_fql(query)

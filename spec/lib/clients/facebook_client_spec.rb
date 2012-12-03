@@ -157,4 +157,52 @@ describe SocialDash::Clients::FacebookClient do
     end
   end
 
+  describe '#page_comment_count' do
+    context 'when page_id is not set' do
+      it 'should be 0' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => ''})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.should_not_receive(:fetch_fql)
+        fb.page_comment_count.should eq(0)
+      end
+    end
+    context 'when page_id is set' do
+      it 'should send fql to fetch total comment count' do
+        social_app = build(:fb_app,:settings => {'page_id' => 1})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.should_receive(:fetch_fql).with("SELECT actor_id FROM stream WHERE source_id = 1 AND actor_id != source_id").and_return([1,2,3])
+        fb.page_comment_count.should eq(3)
+      end
+    end
+  end
+
+  describe '#page_like_count' do
+    context 'when page_id is not set' do
+      it 'should be 0' do
+        social_app = build(:fb_app,:settings => {'credentials' => {'token' => 'token'},'page_id' => ''})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb.page_like_count.should eq(0)
+      end
+    end
+    context 'when page_id is set' do
+      it 'should fetch like count of managed page' do
+        social_app = build(:fb_app,:settings => {'page_id' => 1})
+        fb = SocialDash::Clients::FacebookClient.new(social_app)
+        fb_page = mock(:fb_page)
+        fb_page.stub_chain(:fetch,:like_count).and_return(3)
+        fb.should_receive(:managed_page).and_return(fb_page)
+        fb.page_like_count.should eq(3)
+      end
+    end
+  end
+
+  describe '#insights_data' do
+    it 'should return like and comment count of page' do
+      social_app = build(:fb_app)
+      fb = SocialDash::Clients::FacebookClient.new(social_app)
+      fb.should_receive(:page_like_count).and_return(5)
+      fb.should_receive(:page_comment_count).and_return(6)
+      fb.insights_data.should eq({:likes => 5,:comments => 6})
+    end
+  end
 end
