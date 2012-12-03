@@ -113,5 +113,27 @@ describe FacebookController do
 
     end
   end
+  describe 'POST #delete_comment' do
+    context 'with a signed in user' do
+      let(:user){ create(:user)}
+      let(:fb_app){ social_app = create(:fb_app,:user => user) }
+      before(:each) do
+        sign_in user
+      end
+
+      it 'deletes posted comment_id' do
+        SocialDash::Clients::FacebookClient.any_instance.should_receive(:delete_comment).with('111').and_return(true)
+        post :delete_comment ,:comment_id => '111',:id => fb_app.id
+      end
+
+      it 'renders json of retweeted tweet_id' do
+        SocialDash::Clients::FacebookClient.any_instance.stub(:delete_comment).and_return(true)
+        post :delete_comment , :comment_id => '111',:id => fb_app.id
+        response.body.should eq({:comment_id => '111'}.to_json)
+      end
+
+    end
+  end
+
 
 end

@@ -30,4 +30,10 @@ class FacebookController < ApplicationController
     @blocked_users = @social_app.client_instance.blocked
     render 'social_apps/facebook/blocked'
   end
+
+  def delete_comment
+    social_app = current_user.social_apps.find(params[:id])
+    social_app.client_instance.delete_comment(params[:comment_id])
+    render :json => {:comment_id => params[:comment_id]}
+  end
 end

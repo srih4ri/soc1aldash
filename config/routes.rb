@@ -23,6 +23,7 @@ SocialDash::Application.routes.draw do
   post 'social_apps/:id/facebook/update_settings' => 'facebook#update_settings', :as => :facebook_update_settings
   post 'social_apps/:id/facebook/block' => 'facebook#block',:as => :facebook_block
   get 'social_apps/:id/facebook/blocked' => 'facebook#blocked', :as => :facebook_blocked
+  post 'social_apps/:id/facebook/delete_comment' => 'facebook#delete_comment',:as => :facebook_delete_comment
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
