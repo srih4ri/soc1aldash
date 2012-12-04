@@ -18,7 +18,7 @@ module SocialDash
       end
 
       def available_pages
-        client.accounts
+        client.accounts(:type => 'page')
       end
 
       def page_posts

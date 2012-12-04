@@ -47,7 +47,7 @@ describe SocialDash::Clients::FacebookClient do
     it 'should delegate fetching available pages to fb_graph' do
       social_app = build(:fb_app)
       fb = SocialDash::Clients::FacebookClient.new(social_app)
-      FbGraph::User.any_instance.should_receive(:accounts).and_return([])
+      FbGraph::User.any_instance.should_receive(:accounts).with({:type => 'page'}).and_return([])
       fb.available_pages.should eq([])
     end
   end
