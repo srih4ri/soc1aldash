@@ -39,7 +39,7 @@ group :test do
   gem "capybara"
   gem "guard-rspec"
   gem 'guard-spork'
-  gem 'rb-inotify', '~> 0.8.8'
+  gem 'rb-inotify', '~> 0.10.0'
   gem 'shoulda-matchers'
   gem 'timecop'
 end
